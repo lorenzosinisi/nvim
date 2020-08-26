@@ -27,6 +27,9 @@ Plug 'ntpeters/vim-better-whitespace'
 " auto-close plugin
 Plug 'rstacruz/vim-closer'
 
+" file finder
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+
 " Easy search and replace
 Plug 'brooth/far.vim'
 
@@ -39,7 +42,8 @@ Plug 'easymotion/vim-easymotion'
 
 " Intellisense Engine
 " Plug 'neoclide/coc.nvim', { 'do': 'yarn install' }
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'elixir-lsp/elixir-ls', { 'do': { -> g:ElixirLS.compile() } }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Tmux/Neovim movement integration
 Plug 'christoomey/vim-tmux-navigator'
