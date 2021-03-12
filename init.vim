@@ -224,6 +224,9 @@ let g:echodoc#enable_at_startup = 1
 " Enable syntax highlighting for JSDoc
 let g:javascript_plugin_jsdoc = 1
 
+" Enable syntax highlighting for JSX
+let g:jsx_ext_required = 1
+
 au BufRead,BufNewFile *.scala set filetype=scala
 au! Syntax scala source ~/.vim/syntax/scala.vim
 
@@ -277,7 +280,6 @@ let g:fzf_colors =
 
 
 let g:fzf_history_dir = '~/.local/share/fzf-history'
-
 
 
 augroup MyColors
@@ -513,7 +515,7 @@ command! -bang Colors
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \   <bang>0 ? fzf#vim#with_preview('up:100%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 
@@ -521,7 +523,35 @@ command! -bang -nargs=* Rg
  command! -bang -nargs=? -complete=dir Files
    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9 , 'yoffset': 0, 'xoffset': 0} }
+set termguicolors
+" Default fzf layout
+" - Popup window
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
+" - down / up / left / right
+let g:fzf_layout = { 'down': '40%' }
+
+" - Window using a Vim command
+let g:fzf_layout = { 'window': '10new' }
+
+
+" Customize fzf colors to match your color scheme
+" - fzf#wrap translates this to a set of `--color` options
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
 
 " Vim-Alchemist Mappings
 autocmd FileType elixir nnoremap <buffer> <leader>h :call alchemist#exdoc()<CR>
@@ -625,6 +655,14 @@ let g:ale_sign_error = '●'
 let g:ale_sign_warning = '.'
 let g:ale_lint_on_enter = 0
 
+" Fix files with prettier, and then ESLint.
+let b:ale_fixers = ['prettier', 'eslint']
+" Equivalent to the above.
+let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
+
+" Set this variable to 1 to fix files when you save them.
+let g:ale_fix_on_save = 1
+
 let g:coc_global_extensions = ['coc-elixir', 'coc-diagnostic']
 
 let g:ElixirLS = {}
@@ -682,6 +720,17 @@ call coc#config('elixir.pathToElixirLS', g:ElixirLS.lsp)
 let g:clap_layout = { 'relative': 'editor' }
 
 set rtp+=/usr/local/opt/fzfset
+
+augroup NeoformatAutoFormat
+    autocmd!
+    autocmd FileType javascript,javascript.jsx setlocal formatprg=prettier\
+                                                            \--stdin\
+                                                            \--print-width\ 80\
+                                                            \--single-quote\
+                                                            \--trailing-comma\ es5
+    autocmd BufWritePre *.js,*.jsx Neoformat
+augroup END
+
 
 source ~/.vimrc
 

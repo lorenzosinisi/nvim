@@ -24,6 +24,8 @@ call plug#begin('~/.config/nvim/plugged')
 " Trailing whitespace highlighting & automatic fixing
 Plug 'ntpeters/vim-better-whitespace'
 
+Plug 'sbdchd/neoformat'
+
 " auto-close plugin
 Plug 'rstacruz/vim-closer'
 
