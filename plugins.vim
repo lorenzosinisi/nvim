@@ -20,6 +20,8 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'skywind3000/asyncrun.vim'
+Plug 'GrzegorzKozub/vim-elixirls', { 'do': ':ElixirLsCompileSync' }
 " === Editing Plugins === "
 " Trailing whitespace highlighting & automatic fixing
 Plug 'ntpeters/vim-better-whitespace'
@@ -45,6 +47,7 @@ Plug 'easymotion/vim-easymotion'
 " Intellisense Engine
 " Plug 'neoclide/coc.nvim', { 'do': 'yarn install' }
 Plug 'elixir-lsp/elixir-ls', { 'do': { -> g:ElixirLS.compile() } }
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Tmux/Neovim movement integration
@@ -98,7 +101,7 @@ Plug 'mhartington/oceanic-next'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 " Icons
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -169,7 +172,7 @@ Plug 'vim-erlang/vim-erlang-compiler'
 " Javascript Support
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 Plug 'skywind3000/asyncrun.vim'
 " Elixir Support
 Plug 'elixir-lang/vim-elixir'

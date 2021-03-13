@@ -1,4 +1,5 @@
 scriptencoding utf-8
+
 source ~/.config/nvim/plugins.vim
 
 " ============================================================================ "
@@ -349,7 +350,6 @@ endfunction
 "   <leader>g - Search current directory for occurences of given term and
 "   close window if no results
 "   <leader>j - Search current directory for occurences of word under cursor
-nmap ; :Denite buffer -split=floating -winrow=1<CR>
 nmap <leader>t :Denite file/rec -split=floating -winrow=1<CR>
 nnoremap <leader>g :<C-u>Denite grep:. -no-empty -mode=normal<CR>
 nnoremap <leader>j :<C-u>DeniteCursorWord grep:. -mode=normal<CR>
@@ -579,7 +579,7 @@ augroup MarkMargin
     autocmd  BufEnter  *.vp*   :call MarkMargin(0)
 augroup END
 
-autocmd BufWritePost *.exs,*.ex silent :!mix format %
+" autocmd BufWritePost *.exs,*.ex :AsyncRun mix format %
 
 "=====[ Cut and paste from the system clipboard ]====================
 
@@ -669,12 +669,15 @@ let g:ElixirLS = {}
 let ElixirLS.path = stdpath('config').'/plugged/elixir-ls'
 let ElixirLS.lsp = ElixirLS.path.'/release/language_server.sh'
 let ElixirLS.cmd = join([
+        \ 'cp .release-tool-versions .tool-versions &&',
+        \ 'asdf install &&',
         \ 'mix do',
         \ 'local.hex --force --if-missing,',
         \ 'local.rebar --force,',
         \ 'deps.get,',
         \ 'compile,',
-        \ 'elixir_ls.release'
+        \ 'elixir_ls.release &&',
+        \ 'rm .tool-versions'
         \ ], ' ')
 
 function ElixirLS.on_stdout(_job_id, data, _event)
@@ -731,6 +734,23 @@ augroup NeoformatAutoFormat
     autocmd BufWritePre *.js,*.jsx Neoformat
 augroup END
 
+if has('nvim')
+  let s:user_dir = stdpath('config')
+else
+  let s:user_dir = has('win32') ? expand('~/vimfiles') : expand('~/.vim')
+endif
+
+let g:ale_elixir_elixir_ls_release = s:user_dir . '/plugins/vim-elixirls/elixir-ls/release'
+
+" https://github.com/JakeBecker/elixir-ls/issues/54
+let g:ale_elixir_elixir_ls_config = { 'elixirLS': { 'dialyzerEnabled': v:false } }
+
+let g:ale_linters = {}
+let g:ale_linters.elixir = [ 'credo', 'elixir-ls' ]
+let g:ale_fixers = {}
+let g:ale_fixers.elixir = [ 'mix_format' ]
+
+autocmd FileType elixir,eelixir nnoremap <Leader>f :ALEFix<CR>
 
 source ~/.vimrc
 
