@@ -22,6 +22,9 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'skywind3000/asyncrun.vim'
 Plug 'GrzegorzKozub/vim-elixirls', { 'do': ':ElixirLsCompileSync' }
+Plug 'brooth/far.vim'
+Plug 'mhartington/oceanic-next'
+Plug 'dracula/vim', { 'as': 'dracula' }
 " === Editing Plugins === "
 " Trailing whitespace highlighting & automatic fixing
 Plug 'ntpeters/vim-better-whitespace'
@@ -93,7 +96,7 @@ Plug 'othree/yajs.vim'
 " === UI === "
 " File explorer
 Plug 'scrooloose/nerdtree'
-
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
 " Colorscheme
 Plug 'mhartington/oceanic-next'
 

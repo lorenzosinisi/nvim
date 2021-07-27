@@ -1,5 +1,4 @@
 scriptencoding utf-8
-
 source ~/.config/nvim/plugins.vim
 
 " ============================================================================ "
@@ -20,6 +19,7 @@ set clipboard=unnamed
 set hidden
 set syntax=on
 syntax on
+set encoding=UTF-8
 
 " === TAB/Space settings === "
 " Insert spaces when TAB is pressed.
@@ -197,6 +197,7 @@ let g:airline_exclude_preview = 1
 
 " Enable powerline fonts
 let g:airline_powerline_fonts = 1
+set guifont=DroidSansMono\ Nerd\ Font:h11
 
 " Enable caching of syntax highlighting groups
 let g:airline_highlighting_cache = 1
@@ -222,7 +223,7 @@ endtry
 let g:echodoc#enable_at_startup = 1
 
 " === vim-javascript === "
-" Enable syntax highlighting for JSDoc
+" Enable syntax highlightin for JSDoc
 let g:javascript_plugin_jsdoc = 1
 
 " Enable syntax highlighting for JSX
@@ -246,14 +247,12 @@ let g:signify_sign_delete = '-'
 " ============================================================================ "
 
 " Enable true color support
-" set termguicolors
+if (has("termguicolors"))
+  set termguicolors
+ endif
 "
-" " Editor theme
-try
-  colorscheme OceanicNext
-catch
-  colorscheme slate
-endtry
+set t_Co=256
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 " Add custom highlights in method that is executed every time a
 " colorscheme is sourced
@@ -645,7 +644,6 @@ filetype off " required
 " Vim-Airline Configuration
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
-let g:airline_theme='hybrid'
 let g:hybrid_custom_term_colors = 1
 let g:hybrid_reduced_contrast = 1
 
@@ -656,9 +654,9 @@ let g:ale_sign_warning = '.'
 let g:ale_lint_on_enter = 0
 
 " Fix files with prettier, and then ESLint.
-let b:ale_fixers = ['prettier', 'eslint']
-" Equivalent to the above.
-let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
+" let b:ale_fixers = ['eslint']
+" " Equivalent to the above.
+" let b:ale_fixers = {'javascript': ['eslint']}
 
 " Set this variable to 1 to fix files when you save them.
 let g:ale_fix_on_save = 1
@@ -744,13 +742,19 @@ let g:ale_elixir_elixir_ls_release = s:user_dir . '/plugins/vim-elixirls/elixir-
 
 " https://github.com/JakeBecker/elixir-ls/issues/54
 let g:ale_elixir_elixir_ls_config = { 'elixirLS': { 'dialyzerEnabled': v:false } }
-
+let g:ale_linters_explicit = 1
 let g:ale_linters = {}
 let g:ale_linters.elixir = [ 'credo', 'elixir-ls' ]
 let g:ale_fixers = {}
+let g:ale_linters.javascript = ['eslint']
 let g:ale_fixers.elixir = [ 'mix_format' ]
 
 autocmd FileType elixir,eelixir nnoremap <Leader>f :ALEFix<CR>
-
+let g:ale_javascript_prettier_options = '--single-quote --trailing-comma all'
+let g:airline_theme='oceanicnext'
+colorscheme OceanicNext
+hi Normal guibg=NONE ctermbg=NONE
+hi LineNr guibg=NONE ctermbg=NONE
+hi SignColumn guibg=NONE ctermbg=NONE
+hi EndOfBuffer guibg=NONE ctermbg=NONE
 source ~/.vimrc
-
